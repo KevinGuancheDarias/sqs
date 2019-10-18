@@ -2,12 +2,16 @@
   "name": "simple-consumer-queue-server",
   "version": "1.0.0",
   "description": "A tiny little queue system that supports a single consumer client to be connected",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "tsc": "tsc",
+    "build": "tsc",
+    "compileAndWatch": "tsc -w",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "files": [
+    "dist/**/*"
+  ],
   "license": "MIT",
   "dependencies": {
     "@types/uuid": "^3.4.5",
@@ -16,6 +20,17 @@
     "typescript": "^3.6.4",
     "uuid": "^3.3.3"
   },
+  "author": "Kevin Guanche Darias",
+  "repository": {
+    "type": "git",
+    "url": "git+https://https://github.com/KevinGuancheDarias/sqs.git"
+  },
+  "keywords": [
+    "sqs",
+    "simple",
+    "queue",
+    "system"
+  ],
   "devDependencies": {
     "@types/node": "^12.7.12"
   }
