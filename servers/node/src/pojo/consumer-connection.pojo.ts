@@ -168,7 +168,7 @@ export class ConsumerConnection {
                 handleRegularInput: async session =>
                     ParamsUtil.handleParams(session, ackMap),
                 onEndSection: async _ => {
-                    await Promise.all(this._onMessageEmitted.map(async current => await current(message, ackMap.get('ACK') === 'TRUE')));
+                    await Promise.all(this._onMessageEmitted.map(async current => await current(message, ackMap.get('ACK') !== 'FALSE')));
                     this._consumerState = ConsumerState.BLOCKING;
                     return '';
                 }

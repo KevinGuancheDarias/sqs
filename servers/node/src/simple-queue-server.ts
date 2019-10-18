@@ -9,6 +9,8 @@ import { DeliveryManager } from './pojo/delivery-manager.pojo';
 import { ConsumerConnection } from './pojo/consumer-connection.pojo';
 import { SocketHandlingUtil } from './utils/socket-handling.util';
 import { AbortSessionError } from './errors/abort-session.error';
+import { MessageStoreService } from './interfaces/message-store-service.interface';
+import { SqliteMessageStoreService } from './services/sqlite-message-store.service';
 
 /**
  * Creates a server and listens for messages
@@ -22,7 +24,8 @@ export class SimpleQueueServer {
 
     private _server: Server;
     private _consumerConnection: ConsumerConnection = new ConsumerConnection();
-    private _deliveryManager: DeliveryManager = new DeliveryManager(this._consumerConnection);
+    private _messageStoreService: MessageStoreService = new SqliteMessageStoreService('./messages.db');
+    private _deliveryManager: DeliveryManager = new DeliveryManager(this._consumerConnection, this._messageStoreService);
 
     /**
      * Inits the server
@@ -30,7 +33,7 @@ export class SimpleQueueServer {
      * @author Kevin Guanche Darias <kevin@kevinguanchedarias.com>
      * @since 1.0.0
      */
-    public init(): void {
+    public async init(): Promise<void> {
         this._addCommands();
         this._server = createServer(async socket => {
             socket.write('HELO SERVER\r\n');
@@ -48,6 +51,7 @@ export class SimpleQueueServer {
             await (() => new Promise(resolve => setTimeout(resolve, 10000)))();
             socket.destroy();
         })
+        await this._deliveryManager.init();
         this._server.listen(EnvironmentUtil.findEnvVarOrDie('SQS_PORT'), +EnvironmentUtil.findEnvVarOrDie('SQS_HOST'));
     }
 
@@ -118,7 +122,7 @@ export class SimpleQueueServer {
                 try {
                     JSON.parse(session.buffer);
                     messageConfig.set('BODY', session.buffer);
-                    this._deliveryManager.addMessage(messageConfig);
+                    await this._deliveryManager.addMessage(messageConfig);
                     return '';
                 } catch (e) {
                     console.error(e);

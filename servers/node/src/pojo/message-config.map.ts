@@ -1,6 +1,6 @@
 import { AbstractConfigMap } from './abstract-config.map';
 
-type supportedVars = 'DELIVER_DATE' | 'DELIVER_TIMESTAMP' | 'BODY' | 'ID' | 'EMISION_STATE';
+type supportedVars = 'DELIVER_DATE' | 'DELIVER_TIMESTAMP' | 'BODY' | 'ID' | 'EMISION_STATE' | 'CREATED_AT';
 
 
 /**
@@ -15,7 +15,8 @@ type supportedVars = 'DELIVER_DATE' | 'DELIVER_TIMESTAMP' | 'BODY' | 'ID' | 'EMI
 export class MessageConfigMap extends AbstractConfigMap<supportedVars, any> {
     private static readonly _SERVER_PROPERTIES: supportedVars[] = [
         'ID',
-        'EMISION_STATE'
+        'EMISION_STATE',
+        'CREATED_AT'
     ];
 
     /**
@@ -41,7 +42,8 @@ export class MessageConfigMap extends AbstractConfigMap<supportedVars, any> {
             .set('DELIVER_TIMESTAMP', [])
             .set('BODY', [])
             .set('ID', [])
-            .set('EMISION_STATE', ['PENDING_TIME', 'SUBJECT_REMOVED', 'PENDING_DELIVERY', 'NO_ACK', 'ACK'])
+            .set('EMISION_STATE', [])
+            .set('CREATED_AT', []);
     }
 
 }

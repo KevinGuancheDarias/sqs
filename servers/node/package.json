@@ -1,7 +1,7 @@
 {
-  "name": "single-consumer-queue-server",
+  "name": "simple-consumer-queue-server",
   "version": "1.0.0",
-  "description": "A tiny little queue system that supports a single client to be connected",
+  "description": "A tiny little queue system that supports a single consumer client to be connected",
   "main": "index.js",
   "scripts": {
     "tsc": "tsc",
@@ -12,6 +12,7 @@
   "dependencies": {
     "@types/uuid": "^3.4.5",
     "rxjs": "^6.5.2",
+    "sqlite": "^3.0.3",
     "typescript": "^3.6.4",
     "uuid": "^3.3.3"
   },
