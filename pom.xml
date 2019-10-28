@@ -8,8 +8,9 @@
     <packaging>pom</packaging>
     <name>sqs-root</name>
 
+
     <modules>
-        <module>clients/java</module>
+        <module>client-java</module>
     </modules>
 
     <build>

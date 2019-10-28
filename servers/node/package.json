@@ -1,17 +1,22 @@
 {
-  "name": "simple-consumer-queue-server",
-  "version": "1.0.0",
+  "name": "sqs-server",
+  "version": "1.0.1",
   "description": "A tiny little queue system that supports a single consumer client to be connected",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "bin": {
+    "sqs-server": "./dist/sqs-server"
+  },
   "scripts": {
     "build": "tsc",
     "compileAndWatch": "tsc -w",
+    "prepack": "cp src/sqs-server dist/",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "files": [
     "dist/**/*"
   ],
+  "preferGlobal": true,
   "license": "MIT",
   "dependencies": {
     "@types/uuid": "^3.4.5",
