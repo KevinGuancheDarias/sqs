@@ -43,6 +43,7 @@ public abstract class AbstractClient implements Client {
 		try {
 			connectionState = ConnectionState.NOT_WANTING_CONNECTION;
 			connection.write(buffer).get();
+			expectResponseSync(OK_RESPONSE);
 			connection.close();
 		} catch (InterruptedException | ExecutionException | IOException e) {
 			Thread.currentThread().interrupt();

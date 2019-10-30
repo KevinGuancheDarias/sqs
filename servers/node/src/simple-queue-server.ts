@@ -36,6 +36,7 @@ export class SimpleQueueServer {
     public async init(): Promise<void> {
         this._addCommands();
         this._server = createServer(async socket => {
+            socket.on('error', this._handleSocketError);
             socket.write('HELO SERVER\r\n');
             socket.setEncoding('utf8');
             const sessionConfig: SessionConfigMap = await this._waitConfiguration(socket, new SessionConfigMap());
@@ -143,5 +144,9 @@ export class SimpleQueueServer {
             await SocketHandlingUtil.asyncWrite(session.socket, 'OK\r\n');
             session.socket.destroy();
         });
+    }
+
+    private _handleSocketError(err: Error): void {
+        console.warn('Connection closed', err.message, err.stack);
     }
 }

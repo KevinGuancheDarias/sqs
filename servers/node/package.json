@@ -1,6 +1,6 @@
 {
   "name": "sqs-server",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "A tiny little queue system that supports a single consumer client to be connected",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

@@ -66,7 +66,11 @@ export class ConsumerConnection {
         if (!this._pendingMessagesHandler) {
             throw new ProgrammingError('Should first define the observable of pending messages');
         }
-
+        SocketHandlingUtil.replaceSocketEvent(socket, 'error', () => {
+            console.warn('Connection error occured in consumer socket, will close it');
+            this._consumerState = ConsumerState.NOT_CONNECTED;
+            delete this._consumerSocket;
+        });
         this._consumerSocket = socket;
         this._sessionConfig = sessionConfig;
         this._consumerState = ConsumerState.BLOCKING;

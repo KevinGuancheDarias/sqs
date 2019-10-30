@@ -10,7 +10,6 @@ import com.kevinguanchedarias.sqs.AbstractClient;
 import com.kevinguanchedarias.sqs.ConnectionRole;
 import com.kevinguanchedarias.sqs.Message;
 import com.kevinguanchedarias.sqs.MessageBuilder;
-import com.kevinguanchedarias.sqs.TextMessage;
 import com.kevinguanchedarias.sqs.enumerations.ConnectionState;
 import com.kevinguanchedarias.sqs.exception.SqsBadStateException;
 
@@ -22,7 +21,22 @@ import com.kevinguanchedarias.sqs.exception.SqsBadStateException;
 public abstract class AbstractConsumer<T extends Serializable> extends AbstractClient implements Consumer<T> {
 	protected Thread thread;
 
+	/**
+	 * 
+	 * @param body
+	 * @return
+	 * @since 1.1.0
+	 * @author Kevin Guanche Darias <kevin@kevinguanchedarias.com>
+	 */
 	protected abstract T transformResult(String body);
+
+	/**
+	 * 
+	 * @return
+	 * @since 1.1.0
+	 * @author Kevin Guanche Darias <kevin@kevinguanchedarias.com>
+	 */
+	protected abstract Class<? extends Message<T>> getMessageClass();
 
 	@Override
 	public void connect(String host, int port, String queue) {
@@ -41,7 +55,7 @@ public abstract class AbstractConsumer<T extends Serializable> extends AbstractC
 			String result = getConnectionMessageSync(connection);
 			writeSync("\r\nEND_GET_MESSAGE\r\n");
 			expectResponseToContainSync(OK_RESPONSE);
-			return MessageBuilder.newInstance(TextMessage.class).withBody(result).build();
+			return MessageBuilder.newInstance(getMessageClass()).withBody(transformResult(result)).build();
 		} catch (InterruptedException | ExecutionException e) {
 			commonExceptionHandler(e);
 		}

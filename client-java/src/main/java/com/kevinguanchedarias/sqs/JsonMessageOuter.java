@@ -5,9 +5,9 @@ package com.kevinguanchedarias.sqs;
 
 /**
  * 
- * @since 1.0.0
+ * @since 1.1.0
  * @author Kevin Guanche Darias <kevin@kevinguanchedarias.com>
  */
-public class TextMessage extends AbstractMessage<String> implements Message<String> {
+public class JsonMessageOuter extends AbstractMessage<JsonMessageInner> {
 
 }
